@@ -1,0 +1,205 @@
+[[item]]
+id = "chmax"
+label = "chmax"
+triggers = ["chmax"]
+provides = ["chmax"]
+source = "items/chmax.rs"
+
+[[item]]
+id = "chmin"
+label = "chmin"
+triggers = ["chmin"]
+provides = ["chmin"]
+source = "items/chmin.rs"
+
+[[item]]
+id = "yesno"
+label = "yesno"
+triggers = ["yesno"]
+provides = ["yesno"]
+source = "items/yesno.rs"
+
+[[item]]
+id = "dijkstra"
+label = "dijkstra"
+triggers = ["dijkstra"]
+provides = ["dijkstra"]
+dependencies = ["chmin"]
+source = "items/dijkstra.rs"
+
+[[item]]
+id = "binary_search_answer_i64"
+label = "binary_search_answer (i64)"
+triggers = ["binary_search_answer"]
+provides = ["binary_search_answer"]
+source = "items/binary_search_answer_i64.rs"
+
+[[item]]
+id = "coordinate_compression"
+label = "CoordinateCompression"
+triggers = ["CoordinateCompression"]
+provides = ["CoordinateCompression"]
+source = "items/coordinate_compression.rs"
+
+[[item]]
+id = "gcd_usize"
+label = "gcd (usize)"
+triggers = ["gcd"]
+provides = ["gcd"]
+source = "items/gcd_usize.rs"
+
+[[item]]
+id = "gcd_i64"
+label = "gcd (i64)"
+triggers = ["gcd"]
+provides = ["gcd"]
+source = "items/gcd_i64.rs"
+
+[[item]]
+id = "union_find"
+label = "UnionFind"
+triggers = ["UnionFind"]
+provides = ["UnionFind"]
+source = "items/union_find.rs"
+
+[[item]]
+id = "combination"
+label = "Combination (StaticModInt)"
+triggers = ["Combination"]
+provides = ["Combination"]
+source = "items/combination.rs"
+
+[[snippet]]
+id = "for_range"
+label = "for loop over a range"
+description = "Expand a Rust range loop"
+prefixes = ["cfor"]
+body = """for ${1:i} in ${2:0}..${3:n} {
+    $0
+}"""
+
+[[snippet]]
+id = "gcd_usize_call"
+label = "gcd call (usize)"
+description = "Call gcd and add the usize implementation"
+prefixes = ["cgcd"]
+body = "gcd(${1:a}, ${2:b})"
+dependencies = ["gcd_usize"]
+
+[[snippet]]
+id = "gcd_i64_call"
+label = "gcd call (i64)"
+description = "Call gcd and add the i64 implementation"
+prefixes = ["cgcd64"]
+body = "gcd(${1:a}, ${2:b})"
+dependencies = ["gcd_i64"]
+
+[[snippet]]
+id = "binary_search_answer_i64_call"
+label = "binary_search_answer call (i64)"
+description = "Search an integer answer and add the i64 implementation"
+prefixes = ["cbsans"]
+body = "let ${1:ans} = binary_search_answer(${2:ok}, ${3:ng}, |${4:x}| ${5:condition});$0"
+dependencies = ["binary_search_answer_i64"]
+
+[[snippet]]
+id = "chmax_call"
+label = "chmax call"
+description = "Call chmax! and add its macro definition"
+prefixes = ["cchmax"]
+body = "chmax!(${1:target}, ${2:value});"
+dependencies = ["chmax"]
+
+[[snippet]]
+id = "chmin_call"
+label = "chmin call"
+description = "Call chmin! and add its macro definition"
+prefixes = ["cchmin"]
+body = "chmin!(${1:target}, ${2:value});"
+dependencies = ["chmin"]
+
+[[snippet]]
+id = "yesno_call"
+label = "yesno call"
+description = "Print Yes or No and add the yesno! macro definition"
+prefixes = ["cyesno"]
+body = "yesno!(${1:condition});"
+dependencies = ["yesno"]
+
+[[snippet]]
+id = "union_find_new"
+label = "create UnionFind"
+description = "Create a UnionFind and add its implementation"
+prefixes = ["cuf"]
+body = "let mut ${1:uf} = UnionFind::new(${2:n});"
+dependencies = ["union_find"]
+
+[[snippet]]
+id = "combination_new"
+label = "create Combination"
+description = "Precompute binomial coefficients and add the StaticModInt implementation"
+prefixes = ["ccomb"]
+body = "let ${1:comb} = Combination::<${2:ac_library::ModInt998244353}>::new(${3:n});$0"
+dependencies = ["combination"]
+
+[[snippet]]
+id = "undirected_graph"
+label = "build an undirected graph"
+description = "Build an unweighted undirected adjacency list"
+prefixes = ["cgraph"]
+body = """let mut g = vec![vec![]; ${1:n}];
+for &(u, v) in &${2:uv} {
+    g[u].push(v);
+    g[v].push(u);
+}
+$0"""
+
+[[snippet]]
+id = "bfs"
+label = "unweighted BFS"
+description = "Compute distances with an unweighted BFS"
+prefixes = ["cbfs"]
+body = """let mut q = std::collections::VecDeque::new();
+let mut dist = vec![usize::MAX; ${1:n}];
+
+dist[${2:0}] = 0;
+q.push_back($2);
+
+while let Some(u) = q.pop_front() {
+    for &v in &${3:g}[u] {
+        if dist[v] == usize::MAX {
+            dist[v] = dist[u] + 1;
+            q.push_back(v);
+        }
+    }
+}
+$0"""
+
+[[snippet]]
+id = "dijkstra"
+label = "call dijkstra"
+description = "Call dijkstra and add its implementation"
+prefixes = ["cdijkstra"]
+body = "let ${1:dist} = dijkstra(${2:0}, &${3:g});$0"
+dependencies = ["dijkstra"]
+
+[[snippet]]
+id = "grid_four_neighbors"
+label = "iterate over four grid neighbors"
+description = "Iterate over in-bounds orthogonal grid neighbors"
+prefixes = ["cgrid4"]
+body = """for (di, dj) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {
+    let ni = ${1:i}.wrapping_add_signed(di);
+    let nj = ${2:j}.wrapping_add_signed(dj);
+    if ni < ${3:h} && nj < ${4:w} {
+        $0
+    }
+}"""
+
+[[snippet]]
+id = "coordinate_compression"
+label = "CoordinateCompression::new"
+description = "Create coordinate compression and add its implementation"
+prefixes = ["ccompress"]
+body = "let ${1:cc} = CoordinateCompression::new(${2:values});"
+dependencies = ["coordinate_compression"]
