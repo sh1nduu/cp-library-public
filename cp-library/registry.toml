@@ -69,6 +69,51 @@ triggers = ["Combination"]
 provides = ["Combination"]
 source = "items/combination.rs"
 
+[[item]]
+id = "prime_factors"
+label = "prime_factors (trial division)"
+triggers = ["prime_factors"]
+provides = ["prime_factors"]
+source = "items/prime_factors.rs"
+
+[[item]]
+id = "smallest_prime_factor"
+label = "SmallestPrimeFactor"
+triggers = ["SmallestPrimeFactor"]
+provides = ["SmallestPrimeFactor"]
+source = "items/smallest_prime_factor.rs"
+
+[[item]]
+id = "divisors_from_factors"
+label = "divisors_from_factors"
+triggers = ["divisors_from_factors"]
+provides = ["divisors_from_factors"]
+source = "items/divisors_from_factors.rs"
+
+[[snippet]]
+id = "prime_factors_call"
+label = "factorize by trial division"
+description = "Factorize a positive integer into sorted (prime, exponent) pairs"
+prefixes = ["cpf"]
+body = "let ${1:factors} = prime_factors(${2:x});$0"
+dependencies = ["prime_factors"]
+
+[[snippet]]
+id = "smallest_prime_factor_new"
+label = "create SmallestPrimeFactor"
+description = "Precompute smallest prime factors for repeated factorization up to n"
+prefixes = ["cspf"]
+body = "let ${1:spf} = SmallestPrimeFactor::new(${2:n});$0"
+dependencies = ["smallest_prime_factor"]
+
+[[snippet]]
+id = "divisors_from_factors_call"
+label = "enumerate divisors from prime factors"
+description = "Generate sorted divisors from (prime, exponent) pairs"
+prefixes = ["cdivpf"]
+body = "let ${1:divisors} = divisors_from_factors(&${2:factors});$0"
+dependencies = ["divisors_from_factors"]
+
 [[snippet]]
 id = "for_range"
 label = "for loop over a range"
