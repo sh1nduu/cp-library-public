@@ -20,6 +20,13 @@ provides = ["yesno"]
 source = "items/yesno.rs"
 
 [[item]]
+id = "bfs_dist"
+label = "bfs_dist"
+triggers = ["bfs_dist"]
+provides = ["bfs_dist"]
+source = "items/bfs_dist.rs"
+
+[[item]]
 id = "dijkstra"
 label = "dijkstra"
 triggers = ["dijkstra"]
@@ -201,24 +208,11 @@ $0"""
 
 [[snippet]]
 id = "bfs"
-label = "unweighted BFS"
-description = "Compute distances with an unweighted BFS"
+label = "call bfs_dist"
+description = "Call bfs_dist and add its implementation; unreachable distances are usize::MAX"
 prefixes = ["cbfs"]
-body = """let mut q = std::collections::VecDeque::new();
-let mut dist = vec![usize::MAX; ${1:n}];
-
-dist[${2:0}] = 0;
-q.push_back($2);
-
-while let Some(u) = q.pop_front() {
-    for &v in &${3:g}[u] {
-        if dist[v] == usize::MAX {
-            dist[v] = dist[u] + 1;
-            q.push_back(v);
-        }
-    }
-}
-$0"""
+body = "let ${1:dist} = bfs_dist(${2:0}, &${3:g});$0"
+dependencies = ["bfs_dist"]
 
 [[snippet]]
 id = "dijkstra"
